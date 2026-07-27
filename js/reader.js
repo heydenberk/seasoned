@@ -50,7 +50,7 @@ export function applyWeek(items, region, state, nowWeek) {
     '<span class="chip' + (c.p ? " is-peak" : "") + '" style="--rgb:' + c.c + '">' + c.n + "</span>"
   ).join("");
   if (!chips.length) {
-    html = '<span class="chips-note">Cellar and cold storage only this week — look for the dotted rails.</span>';
+    html = '<span class="chips-note">Cellar and cold storage only this week. Look for the dotted rails.</span>';
   }
   const ticker = $("r-chips");
   ticker.innerHTML = html;
