@@ -1,3 +1,8 @@
+/**
+ * Covers `buildItems`'s per-week level ranking (peak/available/storage) and
+ * the derived `start`/`peakStart` fields, including crops with two harvests.
+ */
+
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { buildItems } from "../js/model.js";
