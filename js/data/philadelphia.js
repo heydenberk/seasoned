@@ -40,14 +40,25 @@ export const philadelphia = {
 
   /* chrome stays monochrome; all colour belongs to the crops */
   categories: [
-    { id: "fruit", name: "Fruit & Berries",          rgb: "176,42,71" },
-    { id: "vine",  name: "Fruiting & Vine Crops",    rgb: "210,98,43" },
-    { id: "root",  name: "Roots, Tubers & Alliums",  rgb: "160,124,44" },
-    { id: "leaf",  name: "Leafy Greens & Salad",     rgb: "110,158,40" },
-    { id: "brass", name: "Brassicas, Stalks & Pods", rgb: "29,112,82" },
-    { id: "herb",  name: "Herbs & Aromatics",        rgb: "46,143,166" },
-    { id: "fungi", name: "Mushrooms & Foraged",      rgb: "123,94,160" },
-    { id: "water", name: "From the Water",           rgb: "47,94,158" }
+    /* Eight pigment-deep hues for the warm ground. Each carries its category
+       everywhere it appears, and every one is used both as coloured 10.5px chip
+       text and as a filled chip with panel-coloured text on top, so each clears
+       4.5:1 in both directions — see test/palette.test.js, which also holds the
+       eight apart in OKLab under simulated protanopia and deuteranopia. The
+       warm family is laddered in lightness (vine brightest, then fruit, then
+       root deepest) because simulated dichromacy collapses red/orange/gold/
+       green onto one axis and lightness is the only separation left there.
+       Values are computed, not eyeballed; retune them with the tests, not by
+       hand. The "r,g,b" string is load-bearing: chart.js, reader.js and
+       drawer.js interpolate it straight into the --rgb custom property. */
+    { id: "fruit", name: "Fruit & Berries",          rgb: "146,22,70" },
+    { id: "vine",  name: "Fruiting & Vine Crops",    rgb: "175,69,6" },
+    { id: "root",  name: "Roots, Tubers & Alliums",  rgb: "103,67,0" },
+    { id: "leaf",  name: "Leafy Greens & Salad",     rgb: "28,117,48" },
+    { id: "brass", name: "Brassicas, Stalks & Pods", rgb: "0,80,63" },
+    { id: "herb",  name: "Herbs & Aromatics",        rgb: "34,109,126" },
+    { id: "fungi", name: "Mushrooms & Foraged",      rgb: "110,73,157" },
+    { id: "water", name: "From the Water",           rgb: "33,63,139" }
   ],
 
   /* [name, categoryIndex, windows, note]
