@@ -6,7 +6,7 @@ until next year.
 
 The first region is Philadelphia / the Delaware Valley foodshed.
 
-**Live:** https://heydenberk.github.io/seasoned/
+**Live:** https://heydenberk.com/seasoned/
 
 ## Running locally
 
