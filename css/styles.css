@@ -1,21 +1,23 @@
+/* --ink-rgb: the one mark the eye is meant to track (the now-line and its legend swatch).
+   --earth-rgb: everything else — recurring grid, band and divider texture, hover and active tints. */
 :root{
+  /* --panel / --panel-2 / --panel-3 are one darkening ramp; retune them together. */
   --ground:#E7EAE1;
   --ground-2:#DDE2D6;
   --panel:#F5F7F0;
   --panel-2:#EEF1E8;
-  --ink:#13251C;
+  --panel-3:#E9EDE2;
+  --ink-rgb:19,37,28;
+  --ink:rgb(var(--ink-rgb));
   --ink-2:#41544A;
   --ink-3:#6E7F74;
   --rule:#C7CFC0;
   --rule-2:#D8DECF;
-  --panel-3:#E9EDE2;
-  --panel-rgb:245,247,240;
+  --earth-rgb:19,37,28;
   --lw:210px;
   --track-min:840px;
   --row-h:26px;
   --pad-r:0px;
-  --ink-rgb:19,37,28;
-  --earth-rgb:19,37,28;
   --shadow:0 1px 0 rgba(var(--ink-rgb),.05), 0 16px 40px -24px rgba(var(--ink-rgb),.5);
 }
 *{box-sizing:border-box}
@@ -159,7 +161,7 @@ input[type=range]:focus-visible::-webkit-slider-thumb{
 .grp{display:flex;align-items:center;gap:8px;padding:14px 12px 7px;position:sticky;left:0;
   font-family:"Bricolage Grotesque",sans-serif;font-weight:700;font-size:11.5px;
   letter-spacing:.13em;text-transform:uppercase;
-  background:linear-gradient(90deg,var(--panel) 62%,rgba(var(--panel-rgb),0));
+  background:linear-gradient(90deg,var(--panel) 62%,transparent);
   width:max-content;z-index:6;pointer-events:none}
 .grp i{width:11px;height:11px;background:rgb(var(--rgb));border-radius:1px;flex:none}
 .grp em{font-family:"IBM Plex Mono",monospace;font-style:normal;font-size:10px;
