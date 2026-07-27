@@ -1,5 +1,5 @@
 /**
- * Dish suggestions.
+ * Dish suggestions, and the compact "Cook now" row that surfaces them.
  *
  * Dishes are ranked by how *briefly* they are possible, not by how many
  * ingredients happen to be around. A dish built from stored roots is
@@ -91,4 +91,61 @@ export function rankDishes(resolved, week, limit = 4) {
       a.dish.name.localeCompare(b.dish.name))
     .slice(0, limit)
     .map(x => x.dish);
+}
+
+/* ---------------------------------------------------------------------------
+ * The "Cook now" row.
+ * ------------------------------------------------------------------------- */
+
+/**
+ * How high the top score has to be before the row claims urgency. Measured
+ * against the Philadelphia index, the top score by week runs: week 17 = 0.94,
+ * week 30 = 0.89, week 41 = 0.91, week 48 = 0.76, week 6 = 0.66. So 0.75
+ * splits the year roughly where a cook would: ramps through the cranberries
+ * are worth interrupting someone for, a February of stored roots and oysters
+ * is not. A threshold much below this would shout in every week of the year,
+ * which is the one thing this label exists to avoid.
+ */
+const URGENT = 0.75;
+
+const WEEKS = 52;
+
+const ESC = { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" };
+const esc = s => String(s).replace(/[&<>"]/g, c => ESC[c]);
+
+/** "7 wks", dropped entirely for a dish that is cookable the whole year. */
+function weeksLabel(dish) {
+  const n = dish.cookableWeeks.size;
+  if (n === WEEKS) return "";
+  return "<em>" + n + " wk" + (n === 1 ? "" : "s") + "</em>";
+}
+
+/**
+ * Paint the dish row: a label, then up to `limit` dish chips for `week`.
+ * `activeDish` is the resolved dish object currently highlighted in the
+ * chart, or null — matched by name, since a re-render hands back equal but
+ * not identical chips.
+ *
+ * Chips are real buttons, so focus, Enter and Space come for free; app.js
+ * binds a single delegated click handler on `el` and reads data-dish, which
+ * survives this function replacing the row on every week change.
+ */
+export function renderCookRow(el, resolved, week, activeDish, limit = 4) {
+  const top = rankDishes(resolved, week, limit);
+  const urgent = top.length > 0 && scoreDish(top[0], week) >= URGENT;
+
+  let html = '<span class="cook-lab">' + (urgent ? "Cook now" : "Nothing urgent") + "</span>";
+
+  if (!top.length) {
+    html += '<span class="chips-note">Nothing in the dish index comes together this week.</span>';
+  }
+
+  html += top.map(d => {
+    const on = activeDish != null && d.name === activeDish.name;
+    return '<button type="button" class="dchip" data-dish="' + esc(d.name) +
+      '" aria-pressed="' + on + '">' + esc(d.name) + weeksLabel(d) + "</button>";
+  }).join("");
+
+  el.innerHTML = html;
+  el.scrollLeft = 0;
 }

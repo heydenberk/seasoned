@@ -122,6 +122,27 @@ input[type=range]:focus-visible::-webkit-slider-thumb{
 .chips-note{font-family:"IBM Plex Mono",monospace;font-size:10.5px;color:var(--ink-3);
   padding:3px 4px;letter-spacing:.05em;white-space:nowrap;flex:none}
 
+/* the dish row, one line under the crop ticker. Same rhythm, deliberately not
+   the same voice: the crop chips are monospace and carry their category hue,
+   a dish has no category, so these are serif and monochrome. */
+.cook{display:flex;flex-wrap:nowrap;gap:6px;align-items:center;margin-top:8px;
+  overflow-x:auto;padding-bottom:2px;scrollbar-width:thin}
+/* sticky so the label survives a narrow screen scrolling the chips sideways */
+.cook-lab{font-family:"IBM Plex Mono",monospace;font-size:9px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--ink-3);white-space:nowrap;flex:none;
+  position:sticky;left:0;z-index:1;background:var(--panel);padding-right:6px}
+.dchip{font-family:"Newsreader",Georgia,serif;font-size:13.5px;line-height:1.3;
+  padding:2px 9px;border:1px solid var(--rule);background:var(--panel-2);
+  color:var(--ink-2);border-radius:2px;cursor:pointer;white-space:nowrap;flex:none;
+  display:inline-flex;align-items:baseline;gap:7px;
+  transition:background .14s,color .14s,border-color .14s}
+.dchip em{font-family:"IBM Plex Mono",monospace;font-style:normal;font-size:9px;
+  letter-spacing:.06em;color:var(--ink-3)}
+.dchip:hover{border-color:var(--ink);color:var(--ink);background:var(--panel-3)}
+.dchip[aria-pressed=true]{background:var(--ink);border-color:var(--ink);color:var(--panel)}
+.dchip[aria-pressed=true] em{color:var(--panel);opacity:.72}
+.dchip:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+
 /* month scale, pinned with the reader, scrolled in sync with the rows */
 .scale{border-top:1.2px solid var(--ink);overflow:hidden;background:var(--panel)}
 .scale-inner{min-width:calc(var(--lw) + var(--track-min));display:flex;height:54px;

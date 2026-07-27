@@ -1,13 +1,18 @@
 /**
  * The sticky week reader: dates, tallies, the chip ticker, and dimming rows
  * that are out of season for the selected week.
+ *
+ * This runs on every week change and after every render, which makes it the
+ * right cadence for anything else that hangs off the week. Rather than import
+ * those things — the reader's subject is the week, not dishes — applyWeek
+ * takes a trailing `after` callback and lets app.js decide what else to paint.
  */
 
 import { fmt, pc, pw, weekStart, weekEnd, seasonName } from "./calendar.js";
 
 const $ = id => document.getElementById(id);
 
-export function applyWeek(items, region, state, nowWeek) {
+export function applyWeek(items, region, state, nowWeek, after) {
   const w = state.week;
   const cats = region.categories;
 
@@ -56,9 +61,20 @@ export function applyWeek(items, region, state, nowWeek) {
   ticker.innerHTML = html;
   ticker.scrollLeft = 0;
 
+  /* A highlighted dish outranks the week. While one is active the chart is
+     answering "what does this dish want", so the two kinds of dimming must
+     not compound: membership in the dish decides, and the week is ignored. */
+  const lit = state.dish
+    ? new Set(state.dish.needs.concat(state.dish.nice).map(i => i.id))
+    : null;
+
   document.querySelectorAll(".row").forEach(row => {
-    const lvl = items[+row.getAttribute("data-id")].byWeek[w];
+    const id = +row.getAttribute("data-id");
+    if (lit) { row.classList.toggle("dim", !lit.has(id)); return; }
+    const lvl = items[id].byWeek[w];
     const on = state.showStore ? lvl > 0 : lvl >= 2;
     row.classList.toggle("dim", state.focusWeek && !on);
   });
+
+  if (after) after();
 }
