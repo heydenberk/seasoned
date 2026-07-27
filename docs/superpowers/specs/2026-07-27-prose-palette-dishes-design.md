@@ -1,7 +1,7 @@
 # Prose, palette and dish suggestions
 
 Date: 2026-07-27
-Status: approved
+Status: implemented 2026-07-27
 
 Three workstreams against `seasoned`, in the order they should be built. They
 are independent except that the dish notes must be written in the register
