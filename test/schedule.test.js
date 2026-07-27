@@ -50,3 +50,26 @@ test("every window is a valid week range", () => {
     }
   }
 });
+
+/* The original 127 notes all executed one template: orienting fact, turn,
+   closing aphorism. Identical endings are the cheapest detectable symptom of
+   that template coming back. */
+test("no two notes share a closing five words", () => {
+  const seen = new Map();
+  for (const [name, , , note] of philadelphia.crops) {
+    const tail = note.toLowerCase().replace(/[^a-z0-9\s]/g, "").trim().split(/\s+/).slice(-5).join(" ");
+    if (tail.split(" ").length < 5) continue;
+    assert.ok(!seen.has(tail), `${name} ends like ${seen.get(tail)}: "${tail}"`);
+    seen.set(tail, name);
+  }
+});
+
+/* Length uniformity was the tell, more than any word choice. Guard the spread
+   rather than any individual note. */
+test("note length is genuinely varied", () => {
+  const lens = philadelphia.crops.map(([, , , note]) => note.length);
+  const short = lens.filter(l => l < 45).length;
+  const long = lens.filter(l => l > 200).length;
+  assert.ok(short >= 12, `only ${short} notes under 45 chars, want >= 12`);
+  assert.ok(long >= 12, `only ${long} notes over 200 chars, want >= 12`);
+});
