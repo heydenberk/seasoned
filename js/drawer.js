@@ -1,5 +1,5 @@
 /**
- * The crop detail drawer.
+ * The detail drawer, for a crop or for a dish.
  */
 
 import { MABB, fmt, pc, pw, weekStart, weekEnd, rangeText } from "./calendar.js";
@@ -13,6 +13,10 @@ let lastFocus = null;
 
 const drawer = () => document.getElementById("drawer");
 const scrim = () => document.getElementById("scrim");
+
+function clearActiveRows() {
+  document.querySelectorAll(".row.is-active").forEach(r => r.classList.remove("is-active"));
+}
 
 export function openDrawer(item, cats, week) {
   const c = cats[item.cat];
@@ -46,21 +50,66 @@ export function openDrawer(item, cats, week) {
     "</div>" +
     '<div style="margin-top:20px">' + now + wins + "</div>";
 
+  drawer().setAttribute("aria-modal", "true");
+  drawer().setAttribute("aria-label", "Crop details");
   drawer().classList.add("on");
   scrim().classList.add("on");
   drawer().focus();
 }
 
+/**
+ * The same drawer, showing a resolved dish instead of a crop: what it is, how
+ * rare the window is, and where each ingredient stands in `week`. Called again
+ * on every week change while a dish is up, so the statuses never go stale —
+ * hence the `fresh` guard, which keeps a refresh from stealing focus back from
+ * whatever the reader is being driven with, or from overwriting the element
+ * that focus should return to on close.
+ */
+export function openDishDrawer(dish, week) {
+  const el = drawer();
+  const fresh = !el.classList.contains("on");
+  if (fresh) lastFocus = document.activeElement;
+
+  const n = dish.cookableWeeks.size;
+  const cookable = n === 52 ? "Cookable all year" : "Cookable " + n + " weeks a year";
+  const ingredient = (it, role) =>
+    '<div class="d-win"><b>' + role + "</b><span>" + it.name +
+    "<em>" + WEEK_LABEL[it.byWeek[week]] + "</em></span></div>";
+
+  document.getElementById("d-body").innerHTML =
+    '<span class="d-cat">Dish</span>' +
+    "<h3>" + dish.name + "</h3>" +
+    '<p class="d-note">' + dish.note + "</p>" +
+    '<div style="margin-top:20px">' +
+      '<div class="d-win"><b>Window</b><span>' + cookable +
+        "<em>week " + week + " of 52</em></span></div>" +
+      dish.needs.map(it => ingredient(it, "Required")).join("") +
+      dish.nice.map(it => ingredient(it, "Optional")).join("") +
+    "</div>";
+
+  clearActiveRows();
+  /* A dish gets the panel but no scrim, unlike a crop. Half of what a dish
+     chip does happens out in the chart — its crops stay lit while the rest
+     dim — and a scrim over the chart would veil the answer. Leaving the page
+     live also keeps the dish row reachable, so the same chip can switch the
+     highlight back off and a neighbouring chip can take it over. */
+  el.setAttribute("aria-modal", "false");
+  el.setAttribute("aria-label", "Dish details");
+  el.classList.add("on");
+  scrim().classList.remove("on");
+  if (fresh) el.focus();
+}
+
 export function closeDrawer() {
   drawer().classList.remove("on");
   scrim().classList.remove("on");
-  document.querySelectorAll(".row.is-active").forEach(r => r.classList.remove("is-active"));
+  clearActiveRows();
   if (lastFocus && lastFocus.focus) lastFocus.focus();
 }
 
 /** Mark a row active, remember it for focus restoration, and open its detail. */
 export function activateRow(row, items, cats, week) {
-  document.querySelectorAll(".row.is-active").forEach(r => r.classList.remove("is-active"));
+  clearActiveRows();
   row.classList.add("is-active");
   lastFocus = row;
   openDrawer(items[+row.getAttribute("data-id")], cats, week);

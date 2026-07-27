@@ -9,7 +9,8 @@ import { todayWeek } from "./calendar.js";
 import { buildItems } from "./model.js";
 import { renderScale, renderGridLines, renderRows, visibleItems } from "./chart.js";
 import { applyWeek } from "./reader.js";
-import { closeDrawer, activateRow } from "./drawer.js";
+import { resolveDishes, renderCookRow } from "./dishes.js";
+import { closeDrawer, openDishDrawer, activateRow } from "./drawer.js";
 import { initTooltip } from "./tooltip.js";
 
 const $ = id => document.getElementById(id);
@@ -17,6 +18,7 @@ const $ = id => document.getElementById(id);
 function start(region) {
   const cats = region.categories;
   const items = buildItems(region.crops);
+  const dishes = resolveDishes(region.dishes, items);
   const NOW_W = todayWeek();
 
   const state = {
@@ -27,6 +29,8 @@ function start(region) {
     weekOnly: false,
     showStore: true,
     focusWeek: false,
+    /* the resolved dish being highlighted in the chart, or null */
+    dish: null,
     first: true
   };
 
@@ -58,6 +62,19 @@ function start(region) {
   });
 
   /* ---------------- rendering ---------------- */
+
+  /* Everything downstream of the week that the reader itself shouldn't know
+     about. An open dish drawer is repainted so its per-week ingredient
+     statuses stay true while the week is being scrubbed. */
+  function afterWeek() {
+    renderCookRow($("r-cook"), dishes, state.week, state.dish);
+    if (state.dish) openDishDrawer(state.dish, state.week);
+  }
+
+  function readWeek() {
+    applyWeek(items, region, state, NOW_W, afterWeek);
+  }
+
   function render() {
     renderRows(rows, visibleItems(items, cats, state), cats, state);
     if (state.first) {
@@ -65,13 +82,13 @@ function start(region) {
       state.first = false;
       setTimeout(() => grid.classList.remove("anim"), 2800);
     }
-    applyWeek(items, region, state, NOW_W);
+    readWeek();
   }
 
   function setWeek(w) {
     state.week = Math.max(1, Math.min(52, w));
     $("scrub").value = state.week;
-    if (state.weekOnly) render(); else applyWeek(items, region, state, NOW_W);
+    if (state.weekOnly) render(); else readWeek();
   }
 
   /* ---------------- week reader controls ---------------- */
@@ -84,7 +101,7 @@ function start(region) {
     if (e.target.tagName === "INPUT" || e.target.tagName === "SELECT") return;
     if (e.key === "ArrowLeft") { state.focusWeek = true; setWeek(state.week - 1); e.preventDefault(); }
     else if (e.key === "ArrowRight") { state.focusWeek = true; setWeek(state.week + 1); e.preventDefault(); }
-    else if (e.key === "Escape") closeDrawer();
+    else if (e.key === "Escape") dismiss();
   });
 
   /* ---------------- filters ---------------- */
@@ -126,6 +143,7 @@ function start(region) {
     tStore.textContent = "Showing storage & glasshouse";
     state.focusWeek = false; state.week = NOW_W;
     $("scrub").value = NOW_W;
+    state.dish = null; closeDrawer();
     render();
   });
 
@@ -151,18 +169,66 @@ function start(region) {
   /* ---------------- tooltip + drawer ---------------- */
   initTooltip(grid, tip, items);
 
-  $("d-close").addEventListener("click", closeDrawer);
-  $("scrim").addEventListener("click", closeDrawer);
+  /* closeDrawer() lives in a module that can't reach state, so dropping the
+     dish highlight has to happen here — which means every path that shuts the
+     drawer goes through this, not through closeDrawer directly. */
+  function dismiss() {
+    const was = state.dish;
+    state.dish = null;
+    closeDrawer();
+    readWeek();
+    /* The chip that opened the drawer has been replaced by the re-render, so
+       drawer.js can't hand focus back to it. Find its stand-in by name; if the
+       dish has dropped off the row entirely there is nothing sensible to
+       return to, and the reader keeps focus where closeDrawer left it. */
+    if (!was) return;
+    const chip = [...$("r-cook").querySelectorAll(".dchip")]
+      .find(c => c.getAttribute("data-dish") === was.name);
+    if (chip) chip.focus();
+  }
+
+  $("d-close").addEventListener("click", dismiss);
+  $("scrim").addEventListener("click", dismiss);
+
+  /* A crop and a dish are two different subjects for one drawer: picking a
+     crop row drops any dish highlight first, so the chart and the drawer are
+     never describing different things. */
+  function showRow(row) {
+    if (state.dish) { state.dish = null; readWeek(); }
+    activateRow(row, items, cats, state.week);
+  }
 
   grid.addEventListener("click", e => {
     const row = e.target.closest ? e.target.closest(".row") : null;
-    if (row) activateRow(row, items, cats, state.week);
+    if (row) showRow(row);
   });
 
   grid.addEventListener("keydown", e => {
     if (e.key !== "Enter" && e.key !== " ") return;
     const row = e.target.closest ? e.target.closest(".row") : null;
-    if (row) { e.preventDefault(); activateRow(row, items, cats, state.week); }
+    if (row) { e.preventDefault(); showRow(row); }
+  });
+
+  /* ---------------- dish row ---------------- */
+
+  /* Delegated: renderCookRow replaces the chips on every week change, so
+     nothing can hold a reference to an individual button. Buttons give the
+     keyboard Enter and Space without any handler of ours. */
+  $("r-cook").addEventListener("click", e => {
+    const chip = e.target.closest ? e.target.closest(".dchip") : null;
+    if (!chip) return;
+    const name = chip.getAttribute("data-dish");
+
+    /* clicking the active chip again is the way back out */
+    if (state.dish && state.dish.name === name) { dismiss(); return; }
+
+    const dish = dishes.find(d => d.name === name);
+    if (!dish) return;
+    state.dish = dish;
+    /* open first: this captures the chip as the element focus returns to,
+       before readWeek() re-renders the row out from under it */
+    openDishDrawer(dish, state.week);
+    readWeek();
   });
 
   /* ---------------- go ---------------- */

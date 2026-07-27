@@ -1,0 +1,11 @@
+{
+  "name": "seasoned",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Interactive seasonality chart",
+  "scripts": {
+    "test": "node --test test/",
+    "fixture:update": "node --input-type=module -e 'import { philadelphia } from \"./js/data/philadelphia.js\"; import { writeFileSync } from \"node:fs\"; writeFileSync(\"test/fixtures/crop-schedule.json\", JSON.stringify(philadelphia.crops.map(([name, cat, windows]) => ({ name, cat, windows })), null, 1) + \"\\n\");'"
+  }
+}

@@ -76,7 +76,7 @@ export function renderRows(el, list, cats, state) {
   let out = "", d = 0;
 
   if (!list.length) {
-    out = '<div class="empty">Nothing matches. Clear the search, or switch a kind back on.</div>';
+    out = '<div class="empty">Nothing matches that. Clear the search, or switch a kind back on.</div>';
   } else if (state.sort === "cat") {
     cats.forEach((c, ci) => {
       const g = list.filter(x => x.cat === ci);
