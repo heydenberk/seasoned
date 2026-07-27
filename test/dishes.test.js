@@ -9,6 +9,7 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import { buildItems } from "../js/model.js";
 import { resolveDishes, rankDishes } from "../js/dishes.js";
+import { philadelphia } from "../js/data/philadelphia.js";
 
 const items = buildItems([
   ["Yearround", 0, [[1, 52, "t"]], "n"],
@@ -125,4 +126,50 @@ test("nice ingredients raise peak share without gating cookability", () => {
   // But when the garnish is at peak, it should tip the score above the
   // otherwise-identical dish that has no nice ingredient at all.
   assert.equal(rankDishes(resolved, 28, 4)[0].name, "With garnish");
+});
+
+/* ---- the real Philadelphia index ---- */
+
+const realItems = buildItems(philadelphia.crops);
+const realDishes = () => resolveDishes(philadelphia.dishes, realItems);
+
+test("every dish crop reference resolves", () => {
+  assert.doesNotThrow(realDishes);
+});
+
+/* This is what settles the winter-thinness question. Ranking by rarity is
+   correct, but it must not leave February with an empty panel — so the floor is
+   asserted per week and the fix for a thin week is another dish, not a lower
+   threshold. */
+test("every week of the year offers at least four dishes", () => {
+  const resolved = realDishes();
+  const thin = [];
+  for (let w = 1; w <= 52; w++) {
+    const n = rankDishes(resolved, w, 99).length;
+    if (n < 4) thin.push(`week ${w}: ${n}`);
+  }
+  assert.deepEqual(thin, [], `weeks with fewer than four dishes — ${thin.join(", ")}`);
+});
+
+test("the urgent end of the index is populated", () => {
+  const urgent = realDishes().filter(d => d.rarity > 0.75);
+  assert.ok(urgent.length >= 12, `only ${urgent.length} dishes with rarity > 0.75, want >= 12`);
+});
+
+test("no two dish notes end on the same five words", () => {
+  const seen = new Map();
+  for (const d of philadelphia.dishes) {
+    const tail = d.note.toLowerCase().replace(/[^a-z0-9\s]/g, "").trim().split(/\s+/).slice(-5).join(" ");
+    if (tail.split(" ").length < 5) continue;
+    assert.ok(!seen.has(tail), `${d.name} ends like ${seen.get(tail)}`);
+    seen.set(tail, d.name);
+  }
+});
+
+/* Fifty dish notes written back to back is exactly the situation that produced
+   the crop notes' uniform metre. Same guard. */
+test("dish note length is varied", () => {
+  const lens = philadelphia.dishes.map(d => d.note.length).sort((a, b) => a - b);
+  assert.ok(lens[0] < 60, `shortest dish note is ${lens[0]} chars`);
+  assert.ok(lens[lens.length - 1] > 180, `longest dish note is ${lens[lens.length - 1]} chars`);
 });

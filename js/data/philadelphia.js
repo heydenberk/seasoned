@@ -207,5 +207,290 @@ export const philadelphia = {
   ["Hard clams",7,[[1,52,"s"],[22,40,"p"]],"Littlenecks and cherrystones out of Barnegat and Delaware bays, dug all year."],
   ["Atlantic mackerel",7,[[40,52,"s"],[45,52,"p"],[1,14,"s"],[1,8,"p"]],"A cold-water winter fish, arriving when almost nothing green is left."],
   ["Monkfish",7,[[44,52,"s"],[47,52,"p"],[1,14,"s"],[1,9,"p"]],"Winter landings out of Cape May and Barnegat Light. Tails only, and better than they look."]
+  ],
+
+  /* Dishes are ranked by how *briefly* they are possible, not by how many
+     ingredients happen to be around. `needs` gates the dish and is satisfied
+     from storage; `nice` only sharpens the ranking. */
+  dishes: [
+
+    /* --- the lean weeks --- */
+    { name: "Mushroom toast",
+      note: "Cream, far more black pepper than seems reasonable, and better bread than it sounds like it needs.",
+      needs: ["Cultivated mushrooms"],
+      nice: ["Thyme, sage & oregano", "Parsley"] },
+
+    { name: "Clams in their own liquor",
+      note: "Wine, and bread to get the bottom of the pan.",
+      needs: ["Hard clams"],
+      nice: ["Parsley", "Garlic"] },
+
+    { name: "Scallops seared hard",
+      note: "Dry-packed only. The wet ones are soaked in phosphate, give up their water in the pan and steam instead of browning, and no amount of heat will fix it.",
+      needs: ["Cape May scallops"],
+      nice: ["Parsley"] },
+
+    { name: "Oysters on the half shell",
+      note: "Cold, raw, and not much else.",
+      needs: ["Delaware Bay oysters"],
+      nice: ["Horseradish"] },
+
+    { name: "Monkfish braised with onions",
+      note: "The tail takes a long braise the way no other local white fish does — it holds together where fluke would fall apart. Worth knowing in February, when the alternatives are frozen.",
+      needs: ["Monkfish", "Storage onions"],
+      nice: ["Parsley", "Thyme, sage & oregano"] },
+
+    { name: "Mackerel, grilled",
+      note: "Oily enough to need nothing but salt and heat. Eat it the day you buy it.",
+      needs: ["Atlantic mackerel"] },
+
+    { name: "Potato and leek soup",
+      note: "The whole argument for leeks standing in frozen ground.",
+      needs: ["Potatoes", "Leeks"],
+      nice: ["Parsley", "Thyme, sage & oregano"] },
+
+    { name: "Roast root tray",
+      note: "Carrots and parsnips together, hot oven, no crowding. After a hard frost both have converted enough starch to sugar that they caramelise on their own, and anything you add in the way of honey or syrup is working against them.",
+      needs: ["Carrots", "Parsnips"],
+      nice: ["Thyme, sage & oregano", "Storage onions"] },
+
+    { name: "Celeriac remoulade",
+      note: "Raw, matchsticked, mustard and mayonnaise. It keeps for months, so this is a January salad.",
+      needs: ["Celeriac"] },
+
+    { name: "Sunchoke soup",
+      note: "Nutty and faintly sweet. Roast them first or it tastes of nothing.",
+      needs: ["Sunchokes"],
+      nice: ["Storage onions", "Thyme, sage & oregano"] },
+
+    { name: "Shredded sprouts, fried",
+      note: "Take them off the stalk, slice them thin, and get the pan hotter than feels wise. Whole boiled sprouts are the reason people think they dislike them.",
+      needs: ["Brussels sprouts"] },
+
+    { name: "Collards, long-braised",
+      note: "An hour at least. They are not spinach and will not behave like it.",
+      needs: ["Collards"],
+      nice: ["Garlic", "Hot peppers"] },
+
+    { name: "Kale and white beans",
+      note: "Cheap, filling, and better in January than in September, because the frost has already done half the work.",
+      needs: ["Kale"],
+      nice: ["Garlic", "Storage onions"] },
+
+    { name: "Cabbage, slow-cooked",
+      note: "A dense autumn head, cut in wedges, cooked far longer than seems right.",
+      needs: ["Cabbage"],
+      nice: ["Storage onions", "Thyme, sage & oregano"] },
+
+    { name: "Winter squash, roasted",
+      note: "Butternut or kabocha, halved, cut side down. Delicata is better but does not keep, so it is an October dish rather than a February one.",
+      needs: ["Winter squash"],
+      nice: ["Thyme, sage & oregano"] },
+
+    { name: "Sweet potato, baked whole",
+      note: "No foil, no oil, an hour. The cure has already made it sweet.",
+      needs: ["Sweet potatoes"] },
+
+    { name: "Apple sauce",
+      note: "Goldrush in March is still sharp enough to need almost no sugar.",
+      needs: ["Apples"] },
+
+    /* --- the hungry gap breaking --- */
+    { name: "Shad roe with bacon",
+      note: "The most seasonal thing on this chart and one of the shortest windows on it. Two lobes, a hot pan, bacon fat, and lemon. It arrives in April, it is gone by May, and the rest of the year there is no substitute for it at any price.",
+      needs: ["Shad & shad roe"],
+      nice: ["Parsley"] },
+
+    { name: "Ramps, grilled whole",
+      note: "Char the leaves, keep the bulbs just short of burnt.",
+      needs: ["Ramps"] },
+
+    { name: "Morels with cream",
+      note: "Halved, rinsed hard because they are always full of grit, then cream and nothing else competing.",
+      needs: ["Morels"],
+      nice: ["Chives"] },
+
+    { name: "Asparagus and morels",
+      note: "Both are at their best in the same three or four weeks of late April, which is either a coincidence or the strongest argument this chart makes.",
+      needs: ["Asparagus", "Morels"],
+      nice: ["Chives"] },
+
+    { name: "Asparagus with a fried egg",
+      note: "Six weeks a year. Do not buy it in November.",
+      needs: ["Asparagus"],
+      nice: ["Chives", "Parsley"] },
+
+    { name: "Fiddleheads, blanched then fried",
+      note: "Blanch them properly first — this is not optional, they are mildly toxic raw — then butter and lemon. Three weeks along the creek bottoms and then nothing until next spring.",
+      needs: ["Fiddlehead ferns"] },
+
+    { name: "Nettle soup",
+      note: "Free, and better than most things you could buy in April. Gloves to pick, then heat kills the sting outright.",
+      needs: ["Stinging nettles"],
+      nice: ["Potatoes", "Storage onions"] },
+
+    { name: "Green garlic soup",
+      note: "Milder than the bulb and greener. Gone by June.",
+      needs: ["Green garlic"],
+      nice: ["Potatoes"] },
+
+    { name: "Pea shoots, wilted",
+      note: "Thirty seconds in a hot pan. One of the first green things at market and the fastest thing to overcook.",
+      needs: ["Pea shoots"],
+      nice: ["Garlic"] },
+
+    { name: "Watercress salad",
+      note: "Peppery, from the Brandywine spring beds, and it disappears the moment the streams warm.",
+      needs: ["Watercress"] },
+
+    { name: "Radishes, butter, salt",
+      note: "Not a recipe. Still the best thing to do with a spring radish.",
+      needs: ["Radishes"] },
+
+    { name: "Rhubarb, stewed",
+      note: "Sugar, a strip of orange peel, and no water.",
+      needs: ["Rhubarb"] },
+
+    { name: "Strawberry and rhubarb",
+      note: "The two overlap for about six weeks and the pairing is a cliché because it works — the rhubarb keeps the strawberries from going flat and sweet.",
+      needs: ["Strawberries", "Rhubarb"] },
+
+    { name: "Elderflower cordial",
+      note: "Cut the heads on a dry morning, or you get green instead of perfume. A fortnight in June.",
+      needs: ["Elderflower"] },
+
+    /* --- June into high summer --- */
+    { name: "Garlic scapes, blistered",
+      note: "Three weeks. Buy more than you need and freeze the rest.",
+      needs: ["Garlic scapes"] },
+
+    { name: "Fava, pecorino and mint",
+      note: "Double-podded, raw or barely cooked. The tedium is the price of admission.",
+      needs: ["Fava beans", "Mint"] },
+
+    { name: "Shell peas with lettuce",
+      note: "Braised together with butter. A pound of pods gives about a cup of peas, which is why nobody sells them shelled.",
+      needs: ["Shell peas", "Head & leaf lettuce"] },
+
+    { name: "Sorrel sauce for fluke",
+      note: "The sorrel collapses to a purée in the pan and the acid does what a squeeze of lemon only gestures at. Both are around together for a few weeks in June and again briefly in September.",
+      needs: ["Sorrel", "Fluke"] },
+
+    { name: "Soft-shells, fried whole",
+      note: "Shell and all. The first big run follows the May full moon.",
+      needs: ["Soft-shell crab"],
+      nice: ["Parsley"] },
+
+    { name: "Squash blossoms, stuffed and fried",
+      note: "Ricotta, a thin batter, and speed — they are cut at dawn and last about a day.",
+      needs: ["Squash blossoms"] },
+
+    { name: "Sour cherry clafoutis",
+      note: "Montmorency, too sharp to eat raw, which is exactly why they make the better pudding. Four weeks.",
+      needs: ["Sour cherries"] },
+
+    { name: "Blueberry cobbler",
+      note: "Hammonton fruit, and enough of it that the topping struggles.",
+      needs: ["Blueberries"] },
+
+    { name: "Blue crab, steamed",
+      note: "Old Bay, newspaper, a mallet, and several hours you were not planning to spend. Heaviest in late summer just before they move to deep water.",
+      needs: ["Blue crab"] },
+
+    { name: "Bluefish, grilled with lemon",
+      note: "Cheap, oily, and only worth eating within a day of landing.",
+      needs: ["Bluefish"] },
+
+    { name: "Pesto, made in quantity",
+      note: "Basil dies on the first cold night without any tapering off, so this gets made in the week before the forecast turns. It freezes well in small jars; the garlic does not, so leave it out until you thaw it.",
+      needs: ["Basil"],
+      nice: ["Garlic", "Black walnuts"] },
+
+    /* --- the top of the year --- */
+    { name: "Tomatoes and corn",
+      note: "Raw kernels cut off the cob, tomatoes at room temperature, salt, and enough time on the counter for the juice to come out. The overlap at peak is about five weeks. Everything else about it is negotiable.",
+      needs: ["Field tomatoes", "Sweet corn"],
+      nice: ["Basil", "Hot peppers"] },
+
+    { name: "Sliced tomatoes, salt",
+      note: "The whole point of the year, and it needs nothing.",
+      needs: ["Field tomatoes"],
+      nice: ["Basil"] },
+
+    { name: "Corn on the cob",
+      note: "Supersweets hold their sugar for days now, so the old sprint from field to pot is less urgent than it was.",
+      needs: ["Sweet corn"] },
+
+    { name: "Limas with corn",
+      note: "Fresh shelling limas, which bear no relation to the frozen kind, and corn cut off the cob. Both are around for about nine weeks together.",
+      needs: ["Lima beans", "Sweet corn"] },
+
+    { name: "Long hots, fried",
+      note: "In oil until they blister and collapse. The local staple pepper, and the one a Philadelphia sandwich assumes.",
+      needs: ["Hot peppers"],
+      nice: ["Garlic"] },
+
+    { name: "Eggplant, charred whole",
+      note: "Straight onto the flame until the skin gives, then scoop it out.",
+      needs: ["Eggplant"],
+      nice: ["Garlic", "Parsley"] },
+
+    { name: "Peaches with basil",
+      note: "An unlikely pairing that works for the ten weeks they overlap.",
+      needs: ["Peaches", "Basil"] },
+
+    { name: "Chanterelles on toast",
+      note: "A few days after a soaking rain, in oak woods. Apricot-scented, and they need almost nothing done to them.",
+      needs: ["Chanterelles"],
+      nice: ["Parsley", "Thyme, sage & oregano"] },
+
+    /* --- autumn --- */
+    { name: "Figs with black walnuts",
+      note: "Off a South Philly tree in late August if you know someone.",
+      needs: ["Figs"],
+      nice: ["Black walnuts"] },
+
+    { name: "Pawpaw, with a spoon",
+      note: "Cut in half, discard the seeds, eat it standing up. It bruises in two days and will not ship, so this is the only way most people will ever have one.",
+      needs: ["Pawpaw"] },
+
+    { name: "Maitake, roasted in a dry pan",
+      note: "Torn into pieces, no oil until the water has gone.",
+      needs: ["Maitake"] },
+
+    { name: "Chicken of the woods, fried",
+      note: "Only the young outer edges. The rest is wood.",
+      needs: ["Chicken of the woods"] },
+
+    { name: "Escarole and beans",
+      note: "The city's dish. Cannellini, a lot of garlic, and the bitterness left in.",
+      needs: ["Escarole & endive"],
+      nice: ["Garlic"] },
+
+    { name: "Broccoli rabe with pork",
+      note: "Blanch the rabe first, then roast pork and sharp provolone. This is the sandwich the argument is actually about.",
+      needs: ["Broccoli rabe"],
+      nice: ["Garlic", "Hot peppers"] },
+
+    { name: "Cardoons, gratinéed",
+      note: "Strip the strings, braise them soft, then cheese and a hot grill. A 9th Street tradition and an autumn-only one.",
+      needs: ["Cardoons"] },
+
+    { name: "Quince paste",
+      note: "Inedible raw, and it turns from pale yellow to deep red over a couple of hours of cooking without anything being added. Seven weeks a year.",
+      needs: ["Quince"] },
+
+    { name: "Persimmon pudding",
+      note: "Asian varieties, jelly-soft or not at all.",
+      needs: ["Persimmons"] },
+
+    { name: "Cranberry sauce",
+      note: "Pine Barrens fruit, an orange, and less sugar than the recipe says.",
+      needs: ["Cranberries"] },
+
+    { name: "Grape focaccia",
+      note: "Concord grapes pressed into the dough, slip-skins and all. They are wildly perfumed and nothing like a table grape, which is the point.",
+      needs: ["Grapes"],
+      nice: ["Rosemary"] }
   ]
 };
