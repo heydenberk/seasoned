@@ -204,7 +204,10 @@ input[type=range]:focus-visible::-webkit-slider-thumb{
 .tip.on{opacity:1}
 
 /* ---------------- drawer ---------------- */
-.scrim{position:fixed;inset:0;background:rgba(var(--ink-rgb),.34);z-index:60;opacity:0;
+/* earth, not ink: this tints a whole surface rather than drawing a mark, and an
+   ink-tinted scrim reads cool sage against the warm page. Alpha is raised from
+   .34 to match the dimming ink gave at its darker value. */
+.scrim{position:fixed;inset:0;background:rgba(var(--earth-rgb),.45);z-index:60;opacity:0;
   pointer-events:none;transition:opacity .2s}
 .scrim.on{opacity:1;pointer-events:auto}
 .drawer{position:fixed;top:0;right:0;bottom:0;width:min(430px,92vw);z-index:70;

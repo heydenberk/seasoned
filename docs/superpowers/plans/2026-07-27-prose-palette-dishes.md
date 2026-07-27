@@ -505,7 +505,9 @@ These tint a surface rather than drawing a line the eye follows:
 .lg.n i{height:16px;width:0;left:16px;border-left:1.5px solid rgba(var(--ink-rgb),.45)}
 ```
 
-Note: `--shadow` is declared inside `:root` and references `--ink-rgb`, which must therefore be declared *before* it in the block.
+Note: `--shadow` is declared inside `:root` and references `--ink-rgb`. Declaration *order does not matter* — custom properties resolve at used-value time against the whole cascaded declaration set, not top-to-bottom like Sass variables, so a forward reference within the same rule resolves correctly. Only a true reference cycle fails. Order `:root` for readability, not for resolution.
+
+(An earlier draft of this plan asserted the opposite. It was wrong, and was corrected after a reviewer tested it in Chromium.)
 
 - [ ] **Step 4: Replace the stray hex**
 
