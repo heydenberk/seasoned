@@ -2,18 +2,18 @@
    --earth-rgb: everything else — recurring grid, band and divider texture, hover and active tints. */
 :root{
   /* --panel / --panel-2 / --panel-3 are one darkening ramp; retune them together. */
-  --ground:#E7EAE1;
-  --ground-2:#DDE2D6;
-  --panel:#F5F7F0;
-  --panel-2:#EEF1E8;
-  --panel-3:#E9EDE2;
-  --ink-rgb:19,37,28;
+  --ground:#EAE4D6;
+  --ground-2:#DFD8C6;
+  --panel:#F7F3E9;
+  --panel-2:#F0EBDD;
+  --panel-3:#EFE8D8;
+  --ink-rgb:27,46,31;
   --ink:rgb(var(--ink-rgb));
-  --ink-2:#41544A;
-  --ink-3:#6E7F74;
-  --rule:#C7CFC0;
-  --rule-2:#D8DECF;
-  --earth-rgb:19,37,28;
+  --ink-2:#5A4B36;
+  --ink-3:#7A6B52;
+  --rule:#CFC4AB;
+  --rule-2:#E0D8C4;
+  --earth-rgb:90,75,54;
   --lw:210px;
   --track-min:840px;
   --row-h:26px;
