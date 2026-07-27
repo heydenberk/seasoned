@@ -64,12 +64,19 @@ test("no two notes share a closing five words", () => {
   }
 });
 
-/* Length uniformity was the tell, more than any word choice. Guard the spread
-   rather than any individual note. */
-test("note length is genuinely varied", () => {
-  const lens = philadelphia.crops.map(([, , , note]) => note.length);
-  const short = lens.filter(l => l < 45).length;
-  const long = lens.filter(l => l > 200).length;
-  assert.ok(short >= 12, `only ${short} notes under 45 chars, want >= 12`);
-  assert.ok(long >= 12, `only ${long} notes over 200 chars, want >= 12`);
+/* Length uniformity was the tell, more than any word choice. But counting how
+   many notes clear a threshold is the wrong guard: writing to a >200 gate
+   produced a corpus with nothing at all between 150 and 237 characters, which
+   is its own kind of uniformity. Assert the distribution has no large hole in
+   it instead. */
+test("note length has no large gap in its distribution", () => {
+  const lens = philadelphia.crops.map(([, , , note]) => note.length).sort((a, b) => a - b);
+  let worst = { gap: 0, at: null };
+  for (let i = 1; i < lens.length; i++) {
+    const gap = lens[i] - lens[i - 1];
+    if (gap > worst.gap) worst = { gap, at: `${lens[i - 1]} -> ${lens[i]}` };
+  }
+  assert.ok(worst.gap <= 60, `${worst.gap}-char hole in the length distribution at ${worst.at}`);
+  assert.ok(lens[0] < 50, `shortest note is ${lens[0]} chars; nothing is genuinely clipped`);
+  assert.ok(lens[lens.length - 1] > 250, `longest note is ${lens[lens.length - 1]} chars; nothing runs long`);
 });
