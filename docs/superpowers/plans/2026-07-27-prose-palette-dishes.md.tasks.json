@@ -4,7 +4,7 @@
     {
       "id": 0,
       "subject": "Task 0: Test harness and data lock",
-      "status": "pending",
+      "status": "completed",
       "description": "See `docs/superpowers/plans/2026-07-27-prose-palette-dishes.md` → Task 0: Test harness and data lock\n\n```json:metadata\n{\"files\": [\"package.json\", \"test/fixtures/crop-schedule.json\", \"test/schedule.test.js\", \"test/model.test.js\"], \"verifyCommand\": \"cd ~/git/seasoned && npm test\", \"acceptanceCriteria\": []}\n```"
     },
     {
@@ -61,7 +61,7 @@
     {
       "id": 7,
       "subject": "Task 7: Dish scoring module",
-      "status": "pending",
+      "status": "completed",
       "description": "See `docs/superpowers/plans/2026-07-27-prose-palette-dishes.md` → Task 7: Dish scoring module\n\n```json:metadata\n{\"files\": [\"js/dishes.js\", \"test/dishes.test.js\"], \"verifyCommand\": \"cd ~/git/seasoned && npm test\", \"acceptanceCriteria\": []}\n```"
     },
     {
