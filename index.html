@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Philadelphia Eating Year</title>
+<meta name="description" content="Fifty-two weeks of what the ground, the orchards and the bay actually give up around Philadelphia.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=IBM+Plex+Mono:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+<div class="wrap">
+
+  <header class="masthead">
+    <p class="eyebrow">Delaware Valley foodshed · 39.95° N</p>
+    <h1>The Philadelphia<em>Eating Year</em></h1>
+    <p class="deck">Fifty-two weeks of what the ground, the orchards and the bay actually give up around this city — when it turns up, when it's worth rearranging dinner around, and when it's gone until next year.</p>
+    <div class="meta-rail">
+      <span>USDA zone <b>7a–7b</b></span>
+      <span>Last spring frost <b>≈ Apr 12</b></span>
+      <span>First fall frost <b>≈ Nov 2</b></span>
+      <span>Growing season <b>≈ 200 days</b></span>
+      <span><b id="m-count">—</b> crops tracked</span>
+    </div>
+  </header>
+
+  <div class="controls">
+    <label class="search">
+      <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="5" cy="5" r="3.6"/><path d="M7.8 7.8 11 11"/></svg>
+      <input type="search" id="q" placeholder="Search crops and notes…" aria-label="Search crops">
+    </label>
+    <select id="sort" aria-label="Sort order">
+      <option value="cat">Group by kind</option>
+      <option value="start">Order by arrival</option>
+      <option value="peak">Order by peak</option>
+      <option value="az">A to Z</option>
+    </select>
+    <button class="btn" id="t-week">Only this week</button>
+    <button class="btn is-on" id="t-store">Showing storage &amp; glasshouse</button>
+    <button class="btn" id="t-all">Reset</button>
+  </div>
+  <div class="pills" id="pills"></div>
+
+  <section class="reader" aria-label="Week reader">
+    <div class="reader-pad">
+      <div class="reader-top">
+        <div class="wk-badge"><span>Week</span><b id="r-num">30</b></div>
+        <div class="wk-dates"><span id="r-dates">—</span><small id="r-season">—</small></div>
+        <div class="tallies">
+          <div class="tally"><b id="r-peak">0</b><span>At peak</span></div>
+          <div class="tally"><b id="r-in">0</b><span>In season</span></div>
+          <div class="tally opt"><b id="r-new">0</b><span>Just in</span></div>
+          <div class="tally opt"><b id="r-last">0</b><span>Last call</span></div>
+        </div>
+      </div>
+      <div class="scrub-row">
+        <button class="btn" id="b-prev" aria-label="Previous week">◀</button>
+        <input type="range" id="scrub" min="1" max="52" value="30" aria-label="Week of the year">
+        <button class="btn" id="b-next" aria-label="Next week">▶</button>
+        <button class="btn" id="b-today">This week</button>
+      </div>
+      <div class="ticker" id="r-chips"></div>
+    </div>
+    <div class="scale" id="scale">
+      <div class="scale-inner">
+        <div class="scale-lab"><b>52 weeks →</b></div>
+        <div class="scale-track" id="scaletrack"></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="scroller" id="scroller">
+    <div class="grid" id="grid">
+      <div class="lines" id="lines"></div>
+      <div id="rows"></div>
+    </div>
+  </div>
+
+  <div class="legend">
+    <div><span class="lg p"><i></i></span> At its peak</div>
+    <div><span class="lg s"><i></i></span> Available</div>
+    <div><span class="lg t"><i></i></span> Storage, cellar or glasshouse</div>
+    <div><span class="lg n"><i></i></span> Today</div>
+    <div style="color:var(--ink-3)">Drag the reader, or use the ← → keys</div>
+  </div>
+
+  <footer>
+    <div class="fgrid">
+      <div>
+        <h4>Where this turns up</h4>
+        <ul>
+          <li>Headhouse Farmers Market<em>Sun · 2nd &amp; Lombard · year-round</em></li>
+          <li>Clark Park<em>Sat · 43rd &amp; Baltimore · year-round</em></li>
+          <li>Fair Food Farmstand<em>Daily · Reading Terminal Market</em></li>
+          <li>Rittenhouse Square<em>Sat year-round · Tue in season</em></li>
+          <li>9th Street Italian Market<em>Daily · greens, herbs, cardoons</em></li>
+          <li>Farm shares<em>Pickups typically late May – late Nov</em></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Four dates that run the year</h4>
+        <p><b>Mid-April.</b> Asparagus and ramps break the hungry gap — the first thing all year that was neither stored nor shipped.</p>
+        <p><b>The end of July.</b> Field tomatoes and corn land in the same fortnight. The shortest and best window of the year.</p>
+        <p><b>First hard frost, early November.</b> Basil dies overnight; kale, sprouts, parsnips and carrots turn sweet.</p>
+        <p><b>February.</b> The genuinely lean month — roots, alliums, brassicas, Kennett Square mushrooms, oysters. That is the whole list.</p>
+      </div>
+      <div>
+        <h4>How to read it</h4>
+        <p>Every crop is drawn in three weights. A dotted rail means it's for sale but out of the ground — cellared roots, cured alliums, glasshouse greens. A thin rail means it's being harvested now. A thick block means it's at the point where it's worth building a meal around.</p>
+        <p>Two blocks means two harvests: a spring sowing that bolts in the heat, and a fall sowing that comes back sweeter after frost.</p>
+      </div>
+    </div>
+    <p class="caveat">Compiled from regional harvest calendars and typical market availability across southeastern Pennsylvania, South Jersey and northern Delaware. Treat every edge as soft — a warm March or a wet June moves things a week or two in either direction, and growers with tunnels and cold frames routinely beat these dates. When in doubt, the person behind the table knows.</p>
+  </footer>
+</div>
+
+<div class="tip" id="tip"></div>
+<div class="scrim" id="scrim"></div>
+<aside class="drawer" id="drawer" role="dialog" aria-modal="true" aria-label="Crop details" tabindex="-1">
+  <button class="btn d-close" id="d-close">Close</button>
+  <div id="d-body"></div>
+</aside>
+
+<script type="module" src="js/app.js"></script>
+</body>
+</html>
