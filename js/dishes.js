@@ -35,6 +35,14 @@ export function resolveDishes(dishes, items) {
       if (!item) throw new Error(`Dish "${d.name}" references unknown crop "${name}"`);
       return item;
     };
+    /* A dish with no requirements would be cookable in all 52 weeks and rank
+       as maximally common — which is indistinguishable from an author who
+       forgot to fill in the ingredients. Refuse it for the same reason an
+       unresolved name is refused. */
+    if (!d.needs || !d.needs.length) {
+      throw new Error(`Dish "${d.name}" lists no needs`);
+    }
+
     const needs = d.needs.map(look);
     const nice = (d.nice || []).map(look);
 

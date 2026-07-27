@@ -89,10 +89,21 @@ test("limit is respected", () => {
   assert.equal(rankDishes(resolved, 20, 4).length, 4);
 });
 
-test("a dish with no required ingredients is cookable every week", () => {
-  const [d] = resolveDishes([{ name: "Empty", note: "", needs: [], nice: [] }], items);
-  assert.equal(d.cookableWeeks.size, 52);
-  assert.equal(d.rarity, 0);
+/* An empty `needs` is almost always an author who forgot the ingredients, and
+   accepting it silently would rank the dish as cookable all year. Refused for
+   the same reason an unresolved crop name is refused. */
+test("a dish with no required ingredients is refused", () => {
+  assert.throws(
+    () => resolveDishes([{ name: "Empty", note: "", needs: [], nice: [] }], items),
+    /Empty.*no needs/
+  );
+});
+
+test("a dish with a missing needs field is refused", () => {
+  assert.throws(
+    () => resolveDishes([{ name: "Absent", note: "", nice: [] }], items),
+    /Absent.*no needs/
+  );
 });
 
 test("nice ingredients raise peak share without gating cookability", () => {
